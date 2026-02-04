@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Léo | Portfolio Architectural</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #030303;
+            --accent: #5865f2;
+            --accent-glow: rgba(88, 101, 242, 0.3);
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.07);
+            --text: #ffffff;
+            --text-dim: #a1a1aa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; overflow: hidden; }
+
+        /* Navigation Latérale */
+        nav {
+            width: 280px;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--glass-border);
+            display: flex; flex-direction: column; padding: 40px;
+            z-index: 100;
+        }
+
+        .logo { font-size: 1.8rem; font-weight: 900; margin-bottom: 50px; background: linear-gradient(to right, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .nav-links { list-style: none; }
+        .nav-links li { margin-bottom: 15px; }
+        .nav-links a {
+            color: var(--text-dim); text-decoration: none; font-size: 0.95rem; font-weight: 500;
+            display: flex; align-items: center; gap: 15px; padding: 12px 20px; border-radius: 15px; transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active { background: var(--glass); color: var(--text); border: 1px solid var(--glass-border); }
+        .nav-links a i { color: var(--accent); }
+
+        /* Contenu Principal */
+        main { flex: 1; padding: 60px; overflow-y: auto; position: relative; }
+        
+        .page { display: none; animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        .page.active { display: block; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Cards & Grid */
+        .bento { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .card { 
+            background: var(--glass); border: 1px solid var(--glass-border); border-radius: 30px; 
+            padding: 30px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .card:hover { transform: scale(1.02); background: rgba(255,255,255,0.05); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+
+        .big-card { grid-column: span 2; }
+        .tall-card { grid-row: span 2; }
+
+        /* Éléments Spécifiques */
+        .title-large { font-size: 4rem; font-weight: 800; letter-spacing: -3px; line-height: 1; margin-bottom: 20px; }
+        .accent-text { color: var(--accent); }
+        
+        .stat-number { font-size: 2.5rem; font-weight: 800; display: block; color: var(--accent); }
+        .stat-label { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Bouton PayPal Stylisé */
+        .paypal-btn {
+            background: #fff; color: #000; padding: 15px 25px; border-radius: 18px; 
+            text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 10px;
+            margin-top: 20px; transition: 0.3s;
+        }
+        .paypal-btn:hover { background: var(--accent); color: #fff; }
+
+        .service-tag { background: var(--accent-soft); color: var(--accent); padding: 5px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; margin-right: 5px; border: 1px solid rgba(88, 101, 242, 0.2); }
+
+        /* Background Decor */
+        .blob {
+            position: absolute; width: 400px; height: 400px; background: var(--accent);
+            filter: blur(150px); opacity: 0.15; z-index: -1; top: -100px; right: -100px;
+        }
+
+        @media (max-width: 1000px) {
+            body { flex-direction: column; overflow-y: auto; }
+            nav { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--glass-border); }
+            main { margin: 0; padding: 30px; }
+            .bento { grid-template-columns: 1fr; }
+            .big-card, .tall-card { grid-column: span 1; grid-row: span 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="blob"></div>
+
+    <nav>
+        <div class="logo">LXEO.DEV</div>
+        <ul class="nav-links">
+            <li><a href="#" class="active" onclick="openPage('home', this)"><i class="fas fa-th-large"></i> Home</a></li>
+            <li><a href="#" onclick="openPage('services', this)"><i class="fas fa-code"></i> Services</a></li>
+            <li><a href="#" onclick="openPage('devhub', this)"><i class="fas fa-rocket"></i> DevHub</a></li>
+            <li><a href="#" onclick="openPage('contact', this)"><i class="fas fa-paper-plane"></i> Contact</a></li>
+        </ul>
+        
+        <div style="margin-top: auto;">
+            <a href="https://paypal.me/LxeoBd" target="_blank" class="paypal-btn" style="width: 100%; justify-content: center;">
+                <i class="fab fa-paypal"></i> PayPal
+            </a>
+        </div>
+    </nav>
+
+    <main>
+        <section id="home" class="page active">
+            <h1 class="title-large">Python <br><span class="accent-text">Architect.</span></h1>
+            <div class="bento">
+                <div class="card big-card">
+                    <h3>Léo</h3>
+                    <p style="color: var(--text-dim); margin-top: 10px; font-size: 1.1rem;">Développeur expert en écosystèmes Discord et fondateur de DevHub Community. Je conçois des infrastructures digitales robustes.</p>
+                </div>
+                <div class="card">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Python Powered</span>
+                </div>
+                <div class="card">
+                    <h3>lxeo.dev</h3>
+                    <p style="color: var(--accent); margin-top: 5px;">Discord Username</p>
+                </div>
+                <div class="card big-card" style="background: linear-gradient(to bottom right, var(--accent), #3b49df);">
+                    <h3>Prêt pour un nouveau projet ?</h3>
+                    <p style="color: rgba(255,255,255,0.8); margin-bottom: 20px;">Contactez-moi pour donner vie à vos idées.</p>
+                    <a href="mailto:devhub.pro0@gmail.com" style="color: #fff; font-weight: bold; text-decoration: none;">Me contacter →</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="page">
+            <h1 class="title-large">Mon <span class="accent-text">Savoir-faire.</span></h1>
+            <div class="bento">
+                <div class="card tall-card">
+                    <i class="fab fa-discord" style="font-size: 2.5rem; color: var(--accent);"></i>
+                    <h3 style="margin-top: 20px;">Bots Discord Pro</h3>
+                    <p style="color: var(--text-dim); margin-top: 15px;">Du système d'économie complexe à l'IA de modération, je maîtrise chaque facette de l'API.</p>
+                    <div style="margin-top: 20px;">
+                        <span class="service-tag">Python</span><span class="service-tag">Asyncio</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Web Dev</h3>
+                    <p style="color: var(--text-dim);">Interfaces modernes et légères.</p>
+                    <div style="margin-top: 10px;"><span class="service-tag">HTML</span><span class="service-tag">CSS</span></div>
+                </div>
+                <div class="card">
+                    <h3>Discord Setup</h3>
+                    <p style="color: var(--text-dim);">Architecture et sécurité de serveurs.</p>
+                </div>
+                <div class="card big-card">
+                    <h3>Pourquoi me choisir ?</h3>
+                    <p style="color: var(--text-dim); margin-top: 10px;">En tant que fondateur, je ne me contente pas de coder. J'apporte une vision stratégique à chaque projet pour garantir sa croissance.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="devhub" class="page">
+            <h1 class="title-large">DevHub <span class="accent-text">Community.</span></h1>
+            <div class="card big-card" style="margin-bottom: 20px;">
+                <p>J'ai fondé DevHub pour créer un pont entre les développeurs de tous niveaux. Nous proposons des services, des bots et une entraide constante.</p>
+                <a href="https://discord.gg/x2GQUCptaw" target="_blank" class="btn" style="background: var(--accent); padding: 15px 30px; border-radius: 15px; color: #fff; text-decoration: none; display: inline-block; margin-top: 20px;">Rejoindre le serveur</a>
+            </div>
+            <div class="bento">
+                <div class="card">
+                    <span class="stat-number">Official</span>
+                    <span class="stat-label">Bots running</span>
+                </div>
+                <div class="card">
+                    <span class="stat-number">Professional</span>
+                    <span class="stat-label">Team & Staff</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="page">
+            <h1 class="title-large">Let's <span class="accent-text">Talk.</span></h1>
+            <div class="bento">
+                <div class="card big-card">
+                    <p class="stat-label">Business & Pro</p>
+                    <h3>devhub.pro0@gmail.com</h3>
+                </div>
+                <div class="card big-card">
+                    <p class="stat-label">Personnel</p>
+                    <h3>leo.bauduin55@gmail.com</h3>
+                </div>
+                <div class="card tall-card" style="background: #fff; color: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                    <i class="fab fa-paypal" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                    <h3 style="color: #000;">Soutenir mes projets</h3>
+                    <p style="color: #333; margin: 15px 0;">Envie de financer un bot ou de soutenir DevHub ?</p>
+                    <a href="https://paypal.me/LxeoBd" target="_blank" class="paypal-btn" style="border: 1px solid #000;">Faire un don</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function openPage(pageId, element) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            
+            document.getElementById(pageId).classList.add('active');
+            element.classList.add('active');
+        }
+    </script>
+</body>
+</html>
